@@ -17,6 +17,7 @@ ext {
     catsEffectVersion = '2.5.4'
 //    circeVersion = '0.14.1'
 //    pureConfigVersion = '0.16.0'
+    http4sVersion = '0.23.4'
 }
 
 repositories {
@@ -44,7 +45,12 @@ dependencies {
 //    implementation "io.circe:circe-parser_${scalaVersion}:${circeVersion}"
 //    implementation "io.circe:circe-generic_${scalaVersion}:${circeVersion}"
 
-//    implementation "com.typesafe.scala-logging:scala-logging_${scalaVersion}:3.9.4"
+    implementation "org.http4s:http4s-dsl_${scalaVersion}:${http4sVersion}"
+    implementation "org.http4s:http4s-circe_${scalaVersion}:${http4sVersion}"
+    implementation "org.http4s:http4s-blaze-server_${scalaVersion}:${http4sVersion}"
+    implementation "org.http4s:http4s-blaze-client_${scalaVersion}:${http4sVersion}"
+
+    implementation "com.typesafe.scala-logging:scala-logging_${scalaVersion}:3.9.4"
 
     testImplementation "org.scalatest:scalatest_${scalaVersion}:3.1.1"
     testRuntimeOnly "com.vladsch.flexmark:flexmark-profile-pegdown:0.36.8"

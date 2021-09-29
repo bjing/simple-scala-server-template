@@ -1,12 +1,27 @@
 package com.project.simple
 
-import cats.effect.{ExitCode, IO, IOApp}
+import cats.effect._
+import org.http4s._
+import org.http4s.dsl.io._
+import org.http4s.blaze.server._
+import org.http4s.implicits._
+
+import scala.concurrent.ExecutionContext.global
 
 object Main extends IOApp {
-  override def run(args: List[String]): IO[ExitCode] =
-    for {
-      _ <- IO { println(helloWorld) }
-    } yield ExitCode.Success
+  val helloWorldService = HttpRoutes
+    .of[IO] {
+      case GET -> Root / "hello" / name =>
+        Ok(s"Hello, $name.")
+    }
+    .orNotFound
 
-  def helloWorld: String = "Hello World!"
+  def run(args: List[String]): IO[ExitCode] =
+    BlazeServerBuilder[IO](global)
+      .bindHttp(8080, "localhost")
+      .withHttpApp(helloWorldService)
+      .serve
+      .compile
+      .drain
+      .as(ExitCode.Success)
 }
